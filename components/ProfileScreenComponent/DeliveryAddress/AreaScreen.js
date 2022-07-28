@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { ScaledSheet } from "react-native-size-matters";
 
+import { useSelector } from "react-redux";
+
 import CommonAddressScreen from "./NonFunctionalComponent/CommonAddressScreen";
 import CustomeActivityIndicator from "../../Common/CustomeActivityIndicator";
 
@@ -10,6 +12,8 @@ export default function AreaScreen(props) {
   const city = props.route.params.city;
   const [data, setData] = React.useState();
   const [loading, setLoading] = React.useState(false);
+
+  const token = useSelector((state) => state.auth.token);
 
   const renderItem = ({ item }) => (
     <View style={styles.name} key={item.displayName}>
@@ -28,17 +32,26 @@ export default function AreaScreen(props) {
     </View>
   );
 
-  const getdata = async () => {
-    const req = await fetch(
-      `https://member.daraz.com.bd/locationtree/api/getSubAddressList?addressId=${city.id}`
-    );
-    const res = await req.json();
-    setData(res.module);
-    setLoading(false);
-  };
-
   React.useEffect(() => {
     setLoading(true);
+    const getdata = async () => {
+      try {
+        const req = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/address?id=${city.id}`,
+          {
+            method: "GET",
+            headers: {
+              "x-auth-token": token,
+            },
+          }
+        );
+        const res = await req.json();
+        setData(res);
+        setLoading(false);
+      } catch (ex) {
+        console.log(ex);
+      }
+    };
     getdata();
   }, []);
   return (

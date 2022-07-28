@@ -12,7 +12,7 @@ export default function HomeOfficeButton(props) {
   const ButtonItem = ({ value, iconName, title, borderColor }) => {
     return (
       <TouchableOpacity
-        onPress={() => props.setOfficePress(value)}
+        onPress={() => props.setOffice(value)}
         activeOpacity={0.6}
       >
         <View
@@ -38,13 +38,13 @@ export default function HomeOfficeButton(props) {
           value={true}
           iconName="shopping-bag"
           title="Office"
-          borderColor={props.officePress ? Colors.DarkGray : Colors.BorderGray}
+          borderColor={props.office ? Colors.DarkGray : Colors.BorderGray}
         />
         <ButtonItem
           value={false}
           iconName="home"
           title="Home"
-          borderColor={!props.officePress ? Colors.DarkGray : Colors.BorderGray}
+          borderColor={!props.office ? Colors.DarkGray : Colors.BorderGray}
         />
       </View>
     </View>

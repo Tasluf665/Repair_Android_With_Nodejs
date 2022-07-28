@@ -23,11 +23,11 @@ export default function AddressCutomeItem({
             style={styles.text}
           >{`${item.address}, ${item.area}, ${item.city}, ${item.region} `}</Text>
           <View style={{ flexDirection: "row" }}>
-            <Text
-              style={[styles.text, { color: Colors.Primary }]}
-            >{`${item.officePress}`}</Text>
+            <Text style={[styles.text, { color: Colors.Primary }]}>
+              {item.office ? "Office" : "Home"}
+            </Text>
 
-            {defaultAddress === item.key ? (
+            {defaultAddress === item._id ? (
               <Text style={[styles.text, styles.defaultText]}>Default</Text>
             ) : null}
           </View>

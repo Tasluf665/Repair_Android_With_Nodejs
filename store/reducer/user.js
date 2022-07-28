@@ -12,7 +12,7 @@ import {
 const initialState = {
   userLoading: false,
   name: "Not Set",
-  mobile: "Not Set",
+  phone: "Not Set",
   email: "Not Set",
   gender: "Not Set",
   birthday: "Not Set",
@@ -33,7 +33,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         name: action.name,
-        mobile: action.mobile,
+        phone: action.phone,
         email: action.email,
         gender: action.gender,
         birthday: action.birthday,

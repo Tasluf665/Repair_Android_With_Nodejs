@@ -14,10 +14,12 @@ export default function DefaultToggleButton(props) {
           false: Colors.SwitchTrackColor,
           true: Colors.FacebookColor,
         }}
-        thumbColor={props.isEnable ? Colors.Primary : Colors.SwitchThumbColor}
+        thumbColor={
+          props.defaultAddress ? Colors.Primary : Colors.SwitchThumbColor
+        }
         ios_backgroundColor="#3e3e3e"
-        onValueChange={props.setIsEnable}
-        value={props.isEnable}
+        onValueChange={props.setDefaultAddress}
+        value={props.defaultAddress}
       />
     </View>
   );

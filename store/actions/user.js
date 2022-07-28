@@ -11,37 +11,29 @@ export const fetchUser = () => {
   return async (dispatch, getState) => {
     dispatch({ type: FETCH_USER_REQUEST });
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
 
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}/Details.json?auth=${token}`
-    )
+    fetch(`${process.env.BACKEND_BASE_URL}/api/users/me`, {
+      method: "GET",
+      headers: {
+        "x-auth-token": token,
+      },
+    })
       .then((response) => response.json())
       .then((user) => {
         if (user && user.error) {
           throw user.error;
         }
 
-        let targetObj = [];
-        if (user && user.address) {
-          for (let item in user.address) {
-            user.address[item].key = item;
-            targetObj.push(user.address[item]);
-          }
-        }
-
         dispatch({
           type: FETCH_USER_SUCCESS,
           name: user && user.name ? user.name : "Not Set",
-          mobile: user && user.mobile ? user.mobile : "Not Set",
+          phone: user && user.phone ? user.phone : "Not Set",
           email: user && user.email ? user.email : "Not Set",
           gender: user && user.gender ? user.gender : "Not Set",
           birthday: user && user.birthday ? user.birthday : "Not Set",
-          address: targetObj,
+          address: user && user.addressess ? user.addressess : [],
           defaultAddress:
-            user && user.address && user.address.default
-              ? user.address.default.default
-              : null,
+            user && user.defaultAddress ? user.defaultAddress : null,
         });
       })
       .catch((error) => dispatch({ type: FETCH_USER_FAILURE, error: error }));
@@ -51,22 +43,20 @@ export const fetchUser = () => {
 export const updateUserDetails = (obj) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
 
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}/Details.json?auth=${token}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          [obj.name]: obj.value,
-        }),
-      }
-    )
+    fetch(`${process.env.BACKEND_BASE_URL}/api/users/update`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify({
+        [obj.name]: obj.value,
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data && data.error) {
           throw data.error;
         }
@@ -79,10 +69,45 @@ export const updateUserDetails = (obj) => {
   };
 };
 
+export const addUserAddress = (address) => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/api/users/addAddress`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+          body: JSON.stringify(address),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data && data.error) {
+        throw data.error;
+      }
+
+      dispatch({
+        type: UPDATE_USER_ADDRESS,
+        address: address,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: FETCH_USER_FAILURE, error: error });
+    }
+  };
+};
+
 export const updateUserAddress = (address) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const userId = getState().auth.userId;
+    console.log(address);
 
     if (address.key) {
       fetch(

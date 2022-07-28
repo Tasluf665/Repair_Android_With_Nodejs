@@ -17,10 +17,7 @@ import ButtomSaveButton from "./NonFunctionalComponent/ButtomSaveButton";
 import HomeOfficeButton from "./NonFunctionalComponent/HomeOfficeButton";
 import DefaultToggleButton from "./NonFunctionalComponent/DefaultToggleButton";
 
-import {
-  updateUserAddress,
-  deleteUserAddress,
-} from "../../../store/actions/user";
+import { addUserAddress, deleteUserAddress } from "../../../store/actions/user";
 import { useDispatch } from "react-redux";
 
 export default function AddNewAddressScreen(props) {
@@ -30,12 +27,10 @@ export default function AddNewAddressScreen(props) {
   const [city, setCity] = useState();
   const [area, setArea] = useState();
   const [address, setAddress] = useState();
-  const [key, setKey] = useState();
-  const [isEnable, setIsEnable] = useState(false);
+  const [office, setOffice] = useState(true);
+  const [defaultAddress, setDefaultAddress] = useState(false);
 
   const [showError, setShowError] = useState(false);
-
-  const [officePress, setOfficePress] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -54,7 +49,7 @@ export default function AddNewAddressScreen(props) {
         setCity(item.city);
         setArea(item.area);
         setAddress(item.address);
-        setKey(item.key);
+        // setKey(item.key);
       }
     }
   }, [props.route.params]);
@@ -114,16 +109,14 @@ export default function AddNewAddressScreen(props) {
         <StatusBar backgroundColor={Colors.Primary_Helper} />
         <CustomeTopBar navigation={props.navigation} title="Add New Address" />
         {customeItem()}
-        <HomeOfficeButton
-          officePress={officePress}
-          setOfficePress={setOfficePress}
-        />
+        <HomeOfficeButton office={office} setOffice={setOffice} />
         <DefaultToggleButton
-          isEnable={isEnable}
-          setIsEnable={() => setIsEnable((state) => !state)}
+          defaultAddress={defaultAddress}
+          setDefaultAddress={() => setDefaultAddress((state) => !state)}
         />
       </ScrollView>
-      {key ? (
+
+      {/* {key ? (
         <>
           <View style={styles.line}></View>
           <View style={styles.deleteContainer}>
@@ -138,7 +131,7 @@ export default function AddNewAddressScreen(props) {
             </TouchableOpacity>
           </View>
         </>
-      ) : null}
+      ) : null} */}
 
       <View style={styles.buttonContainer}>
         <ButtomSaveButton
@@ -151,11 +144,10 @@ export default function AddNewAddressScreen(props) {
                 city,
                 area,
                 address,
-                key,
-                isEnable,
-                officePress: officePress ? "Office" : "Home",
+                defaultAddress,
+                office,
               };
-              dispatch(updateUserAddress(AddressObj));
+              dispatch(addUserAddress(AddressObj));
               props.navigation.navigate("DeliveryAddressMainScreen");
             } else {
               setShowError(true);
