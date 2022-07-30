@@ -33,11 +33,6 @@ export default function DeliveryAddressMainScreen(props) {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  const getAddress = () => {
-    let dataArray = address.filter((item) => !item.default);
-    return dataArray;
-  };
-
   const renderItem = ({ item }) => (
     <AddressCutomeItem
       item={item}
@@ -59,10 +54,8 @@ export default function DeliveryAddressMainScreen(props) {
               onPress={() => props.navigation.navigate("AddNewAddressScreen")}
             />
             <FlatList
-              keyExtractor={(item) =>
-                item.name + item.address + item.area + item.city
-              }
-              data={getAddress()}
+              keyExtractor={(item) => item._id}
+              data={address}
               renderItem={renderItem}
               contentContainerStyle={{ paddingBottom: 20 }}
             />

@@ -17,7 +17,11 @@ import ButtomSaveButton from "./NonFunctionalComponent/ButtomSaveButton";
 import HomeOfficeButton from "./NonFunctionalComponent/HomeOfficeButton";
 import DefaultToggleButton from "./NonFunctionalComponent/DefaultToggleButton";
 
-import { addUserAddress, deleteUserAddress } from "../../../store/actions/user";
+import {
+  addUserAddress,
+  deleteUserAddress,
+  updateUserAddress,
+} from "../../../store/actions/user";
 import { useDispatch } from "react-redux";
 
 export default function AddNewAddressScreen(props) {
@@ -29,6 +33,7 @@ export default function AddNewAddressScreen(props) {
   const [address, setAddress] = useState();
   const [office, setOffice] = useState(true);
   const [defaultAddress, setDefaultAddress] = useState(false);
+  const [addressId, setAddressId] = useState();
 
   const [showError, setShowError] = useState(false);
 
@@ -49,7 +54,7 @@ export default function AddNewAddressScreen(props) {
         setCity(item.city);
         setArea(item.area);
         setAddress(item.address);
-        // setKey(item.key);
+        setAddressId(item._id);
       }
     }
   }, [props.route.params]);
@@ -116,14 +121,14 @@ export default function AddNewAddressScreen(props) {
         />
       </ScrollView>
 
-      {/* {key ? (
+      {addressId ? (
         <>
           <View style={styles.line}></View>
           <View style={styles.deleteContainer}>
             <TouchableOpacity
               activeOpacity={0.6}
               onPress={() => {
-                dispatch(deleteUserAddress(key));
+                dispatch(deleteUserAddress(addressId));
                 props.navigation.navigate("DeliveryAddressMainScreen");
               }}
             >
@@ -131,7 +136,7 @@ export default function AddNewAddressScreen(props) {
             </TouchableOpacity>
           </View>
         </>
-      ) : null} */}
+      ) : null}
 
       <View style={styles.buttonContainer}>
         <ButtomSaveButton
@@ -146,8 +151,9 @@ export default function AddNewAddressScreen(props) {
                 address,
                 defaultAddress,
                 office,
+                addressId,
               };
-              dispatch(addUserAddress(AddressObj));
+              dispatch(updateUserAddress(AddressObj));
               props.navigation.navigate("DeliveryAddressMainScreen");
             } else {
               setShowError(true);

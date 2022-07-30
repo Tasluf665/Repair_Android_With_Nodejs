@@ -1,11 +1,10 @@
+import { Alert } from "react-native";
+
 export const FETCH_USER_REQUEST = "FETCH_USER_REQUEST";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
 export const UPDATE_USER = "UPDATE_USER";
 export const UPDATE_USER_ADDRESS = "UPDATE_USER_ADDRESS";
-export const DELETE_USER_ADDRESS = "DELETE_USER_ADDRESS";
-export const UPDATE_USER_ADDRESS_UPDATE = "UPDATE_USER_ADDRESS_UPDATE";
-export const SET_DEFAULT = "SET_DEFAULT";
 
 export const fetchUser = () => {
   return async (dispatch, getState) => {
@@ -56,7 +55,6 @@ export const updateUserDetails = (obj) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data && data.error) {
           throw data.error;
         }
@@ -69,175 +67,117 @@ export const updateUserDetails = (obj) => {
   };
 };
 
-export const addUserAddress = (address) => {
-  return async (dispatch, getState) => {
-    const token = getState().auth.token;
-
-    try {
-      const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/users/addAddress`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-          body: JSON.stringify(address),
-        }
-      );
-
-      const data = await response.json();
-
-      if (data && data.error) {
-        throw data.error;
-      }
-
-      dispatch({
-        type: UPDATE_USER_ADDRESS,
-        address: address,
-      });
-    } catch (error) {
-      console.log(error);
-      dispatch({ type: FETCH_USER_FAILURE, error: error });
-    }
-  };
-};
-
 export const updateUserAddress = (address) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
-    console.log(address);
 
-    if (address.key) {
-      fetch(
-        `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}/Details/address/${address.key}.json?auth=${token}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(address),
+    if (address.addressId) {
+      const addressId = address.addressId;
+      delete address.addressId;
+
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/users/userAddress/${addressId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+            body: JSON.stringify(address),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data && data.error) {
+          throw data.error;
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data && data.error) {
-            throw data.error;
-          }
 
-          if (address.isEnable) {
-            fetch(
-              `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}/Details/address/default.json?auth=${token}`,
-              {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ default: address.key }),
-              }
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                dispatch({
-                  type: SET_DEFAULT,
-                  key: address.key,
-                });
-              });
-          }
-
-          dispatch({
-            type: UPDATE_USER_ADDRESS_UPDATE,
-            address: address,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({ type: FETCH_USER_FAILURE, error: error });
+        dispatch({
+          type: UPDATE_USER_ADDRESS,
+          data: {
+            addressess: data.addressess,
+            defaultAddress: data.defaultAddress,
+          },
         });
+      } catch (error) {
+        console.log(error);
+        dispatch({ type: FETCH_USER_FAILURE, error: error });
+      }
     } else {
-      fetch(
-        `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}/Details/address.json?auth=${token}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(address),
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/users/userAddress`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+            body: JSON.stringify(address),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data && data.error) {
+          throw data.error;
         }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data && data.error) {
-            throw data.error;
-          }
-          address.key = data.name;
 
-          if (address.isEnable) {
-            fetch(
-              `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/users/${userId}/Details/address/default.json?auth=${token}`,
-              {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ default: data.name }),
-              }
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                dispatch({
-                  type: SET_DEFAULT,
-                  key: address.key,
-                });
-              });
-          }
-
-          dispatch({
-            type: UPDATE_USER_ADDRESS,
-            address: address,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({ type: FETCH_USER_FAILURE, error: error });
+        dispatch({
+          type: UPDATE_USER_ADDRESS,
+          data: {
+            addressess: data.addressess,
+            defaultAddress: data.defaultAddress,
+          },
         });
+      } catch (error) {
+        console.log(error);
+        dispatch({ type: FETCH_USER_FAILURE, error: error });
+      }
     }
   };
 };
 
-export const deleteUserAddress = (key) => {
+export const deleteUserAddress = (addressId) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
 
     const defaultAddress = getState().user.defaultAddress;
 
-    if (defaultAddress === key) {
+    if (defaultAddress === addressId) {
+      Alert.alert("Can't delete default address");
     } else {
-      fetch(
-        `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/${userId}/Details/address/${key}.json?auth=${token}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data && data.error) {
-            throw data.error;
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/users/userAddress/${addressId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
           }
-          dispatch({
-            type: DELETE_USER_ADDRESS,
-            key,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({ type: FETCH_USER_FAILURE, error: error });
+        );
+
+        const data = await response.json();
+
+        if (data && data.error) {
+          throw data.error;
+        }
+
+        dispatch({
+          type: UPDATE_USER_ADDRESS,
+          data: {
+            addressess: data.addressess,
+            defaultAddress: data.defaultAddress,
+          },
         });
+      } catch (error) {
+        console.log(error);
+        dispatch({ type: FETCH_USER_FAILURE, error: error });
+      }
     }
   };
 };

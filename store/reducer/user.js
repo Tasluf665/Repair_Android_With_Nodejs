@@ -4,9 +4,6 @@ import {
   FETCH_USER_SUCCESS,
   UPDATE_USER,
   UPDATE_USER_ADDRESS,
-  DELETE_USER_ADDRESS,
-  UPDATE_USER_ADDRESS_UPDATE,
-  SET_DEFAULT,
 } from "../actions/user";
 
 const initialState = {
@@ -56,43 +53,10 @@ const userReducer = (state = initialState, action) => {
         userError: null,
       };
     case UPDATE_USER_ADDRESS:
-      const addAddress = [...state.address];
-      addAddress.push(action.address);
       return {
         ...state,
-        address: addAddress,
-        userLoading: false,
-        userError: null,
-      };
-    case UPDATE_USER_ADDRESS_UPDATE:
-      const updateAddress = [...state.address];
-
-      let targetObj = updateAddress.map((item) => {
-        if (item.key === action.address.key) {
-          item = action.address;
-        }
-        return item;
-      });
-
-      return {
-        ...state,
-        address: targetObj,
-        userLoading: false,
-        userError: null,
-      };
-    case DELETE_USER_ADDRESS:
-      const currentAddress = [...state.address];
-      let deleteObj = currentAddress.filter((item) => item.key != action.key);
-      return {
-        ...state,
-        address: deleteObj,
-        userLoading: false,
-        userError: null,
-      };
-    case SET_DEFAULT:
-      return {
-        ...state,
-        defaultAddress: action.key,
+        address: action.data.addressess,
+        defaultAddress: action.data.defaultAddress,
         userLoading: false,
         userError: null,
       };
