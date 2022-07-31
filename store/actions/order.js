@@ -9,31 +9,32 @@ export const fetchOrder = () => {
   return async (dispatch, getState) => {
     dispatch({ type: FETCH_ORDER_REQUEST });
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
 
-    console.log(token);
-
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/orders/${userId}/Orders.json?auth=${token}`
-    )
-      .then((response) => response.json())
-      .then((order) => {
-        if (order && order.error) {
-          throw order.error;
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/api/users/orders/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
         }
+      );
 
-        let targetObj = [];
-        for (let item in order) {
-          order[item].key = item;
-          targetObj.push(order[item]);
-        }
+      const data = await response.json();
 
-        dispatch({
-          type: FETCH_ORDER_SUCCESS,
-          order: targetObj,
-        });
-      })
-      .catch((error) => dispatch({ type: FETCH_ORDER_FAILURE, error: error }));
+      if (data && data.error) {
+        throw data.error;
+      }
+
+      dispatch({
+        type: FETCH_ORDER_SUCCESS,
+        order: data.orders,
+      });
+    } catch (error) {
+      dispatch({ type: FETCH_ORDER_FAILURE, error: error });
+    }
   };
 };
 
@@ -41,31 +42,33 @@ export const addOrder = (order) => {
   return async (dispatch, getState) => {
     dispatch({ type: ADD_ORDER_REQUEST });
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
 
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/orders/${userId}/Orders.json?auth=${token}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.error) {
-          throw data.error;
-        } else {
-          order.key = data.name;
-          dispatch({
-            type: ADD_ORDER_SUCCESS,
-            order: order,
-          });
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/api/orders/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+          body: JSON.stringify(order),
         }
-      })
-      .catch((error) => dispatch({ type: ADD_ORDER_FAILURE, error: error }));
+      );
+
+      const data = await response.json();
+
+      if (data && data.error) {
+        throw data.error;
+      } else {
+        dispatch({
+          type: ADD_ORDER_SUCCESS,
+          order: data.order,
+        });
+      }
+    } catch (error) {
+      dispatch({ type: ADD_ORDER_FAILURE, error: error });
+    }
   };
 };
 

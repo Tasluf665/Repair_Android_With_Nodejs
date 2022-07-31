@@ -36,17 +36,18 @@ const OrderMainScreen = () => {
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item._id}
           data={order.filter(
             (item) =>
-              item.status[item.status.length - 1].state !== "Payment Complete"
+              item.status[item.status.length - 1].statusState !==
+              "Payment Complete"
           )}
           renderItem={({ item }) => (
             <CardView
               image={item.categoryType}
               title={item.category}
               description={item.problem}
-              orderId={item.key}
+              orderId={item._id}
             />
           )}
         />

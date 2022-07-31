@@ -10,27 +10,57 @@ import ContactCard from "./NonFunctionalComponent/ContactCard";
 import CustomeActivityIndicator from "../Common/CustomeActivityIndicator";
 
 export default function OrderTrackMainScreen(props) {
-  const userId = useSelector((state) => state.auth.userId);
   const token = useSelector((state) => state.auth.token);
 
   const [allOrderDetails, setAllOrderDetails] = React.useState(null);
+  const [technician, setTechnician] = React.useState(null);
   const [trackData, setTrackData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   const navigation = useNavigation();
 
   React.useEffect(() => {
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/orders/${userId}/Orders/${props.orderId}.json?auth=${token}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setAllOrderDetails(data);
-        setTrackData(data.status);
+    const getData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/users/orders/${props.orderId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.order.technicianId) {
+          const res = await fetch(
+            `${process.env.BACKEND_BASE_URL}/api/technicians/${data.order.technicianId}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+            }
+          );
+
+          const result = await res.json();
+
+          if (result.success) setTechnician(result.technician);
+        }
+
+        setAllOrderDetails(data.order);
+        setTrackData(data.order.status);
         setLoading(false);
-      })
-      .catch((error) => {});
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getData();
   }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: Colors.Primary_Helper }}>
       {loading || trackData == null ? (
@@ -46,20 +76,18 @@ export default function OrderTrackMainScreen(props) {
               </View>
               <View>
                 <Text style={styles.order}>
-                  {new Date(trackData[0].time).toDateString() +
-                    ", " +
-                    new Date(trackData[0].time).getHours() +
-                    ":" +
-                    new Date(trackData[0].time).getMinutes()}
+                  {new Date(allOrderDetails.bookingTime)
+                    .toUTCString()
+                    .replace(" GMT", "")}
                 </Text>
                 <Text style={styles.order}>{props.orderId}</Text>
               </View>
             </View>
             <OrderTrackIndecator trackData={trackData} />
 
-            {trackData.find((item) => item.state === "Technician Assigned") ? (
+            {allOrderDetails.technicianId ? (
               <View style={styles.ContactCardContainer}>
-                <ContactCard technicianId={allOrderDetails.technician} />
+                <ContactCard technician={technician} />
               </View>
             ) : null}
 

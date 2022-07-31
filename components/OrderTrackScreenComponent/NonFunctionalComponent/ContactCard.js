@@ -3,25 +3,9 @@ import { View, Text, Image, Button } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 
 import Colors from "../../../Constant/Colors";
-import { useSelector } from "react-redux";
 import * as Linking from "expo-linking";
 
-const ContactCard = ({ technicianId }) => {
-  const [technician, setTechnician] = React.useState([]);
-  const token = useSelector((state) => state.auth.token);
-
-  React.useEffect(() => {
-    console.log(technicianId);
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/technician/${technicianId}.json?auth=${token}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setTechnician(data);
-      })
-      .catch((error) => {});
-  }, []);
-
+const ContactCard = ({ technician }) => {
   const handelPhone = () => {
     Linking.openURL(`tel:${technician.phone}`);
   };

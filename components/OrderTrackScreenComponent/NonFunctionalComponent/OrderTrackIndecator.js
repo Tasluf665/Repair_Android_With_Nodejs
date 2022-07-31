@@ -9,7 +9,7 @@ import { OrderTrackCustomStyles } from "../../../Constant/OrderTrackItems";
 
 const OrderTrackIndecator = (props) => {
   const trackData = props.trackData;
-  const OrderTrackLabels = trackData.map((item) => item.state);
+  const OrderTrackLabels = trackData.map((item) => item.statusState);
   return (
     <View style={styles.container}>
       <StepIndicator
@@ -21,16 +21,16 @@ const OrderTrackIndecator = (props) => {
         renderLabel={({ position }) => {
           return (
             <View style={styles.lblContainer}>
-              <Text style={styles.lblText}>{trackData[position].state}</Text>
-              <Text style={styles.lblStatus}>
-                {trackData[position].details}
+              <Text style={styles.lblText}>
+                {trackData[position].statusState}
               </Text>
               <Text style={styles.lblStatus}>
-                {new Date(trackData[position].time).toDateString() +
-                  ", " +
-                  new Date(trackData[position].time).getHours() +
-                  ":" +
-                  new Date(trackData[position].time).getMinutes()}
+                {trackData[position].statusDetails}
+              </Text>
+              <Text style={styles.lblStatus}>
+                {new Date(trackData[position].time)
+                  .toUTCString()
+                  .replace(" GMT", "")}
               </Text>
             </View>
           );
