@@ -23,11 +23,13 @@ const OrderMainScreen = () => {
       dispatch(authRefreshToken(refresh_token));
       dispatch(fetchOrder());
     }
+    console.log(order);
   }, [orderError]);
 
   useEffect(() => {
+    console.log("Here");
     dispatch(fetchOrder());
-  }, [dispatch]);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.Gray }}>

@@ -92,7 +92,7 @@ export default function OrderTrackMainScreen(props) {
             ) : null}
 
             {props.history ? null : trackData.find(
-                (item) => item.state === "Product Repaired"
+                (item) => item.statusState === "Product Repaired"
               ) ? (
               <View style={styles.buttonContainer}>
                 <Button
