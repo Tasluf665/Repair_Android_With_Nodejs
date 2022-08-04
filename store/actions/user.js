@@ -175,7 +175,6 @@ export const deleteUserAddress = (addressId) => {
           },
         });
       } catch (error) {
-        console.log(error);
         dispatch({ type: FETCH_USER_FAILURE, error: error });
       }
     }

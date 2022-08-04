@@ -23,8 +23,8 @@ const FormSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(70, "Too Long!")
     .required("* Required"),
-  date: Yup.string().required("* Required"),
-  time: Yup.string().required("* Required"),
+  arrivalDate: Yup.string().required("* Required"),
+  arrivalTime: Yup.string().required("* Required"),
   address: Yup.string().required("* Required"),
   product: Yup.string().required("* Required"),
   type: Yup.string().required("* Required"),
@@ -36,7 +36,7 @@ const FormSchema = Yup.object().shape({
 const FullPage = (props) => {
   const address = useSelector((state) => state.user.address);
   const defaultAddress = useSelector((state) => state.user.defaultAddress);
-  const defAddress = address.find((item) => item.key === defaultAddress);
+  const defAddress = address.find((item) => item._id === defaultAddress);
 
   const orderLoading = useSelector((state) => state.order.orderLoading);
   const orderError = useSelector((state) => state.order.orderError);
@@ -54,8 +54,6 @@ const FullPage = (props) => {
 
   const initValue = {
     name: defAddress ? defAddress.name : "",
-    date: "",
-    time: "",
     address: defAddress
       ? `${defAddress.address}, ${defAddress.area}, ${defAddress.city}, ${defAddress.region}`
       : "",
@@ -79,16 +77,8 @@ const FullPage = (props) => {
             onSubmit={(values, actions) => {
               values.category = "Repairing";
               values.categoryType = props.iconName;
-              const time = new Date().valueOf();
-              values.bookingTime = time;
-              values.status = [
-                {
-                  state: "Pending",
-                  details: "Your order is pending",
-                  time: time,
-                },
-              ];
-              values.detailsStatus = "Your order is pending";
+              values.statusDetails = "Your order is pending";
+              values.statusState = "Pending";
 
               dispatch(addOrder(values));
               actions.resetForm({ values: initValue });

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
@@ -9,16 +9,12 @@ export default function CardView(props) {
   return (
     <View>
       <CustomeSelectItem
-        details="Bkash"
+        details="Payment"
         onPress={() =>
-          navigation.navigate("PaymentWebView", {
+          navigation.navigate("SSLCOMMERZ_Web_View", {
             orderId: props.orderId,
           })
         }
-      />
-      <CustomeSelectItem
-        details="Cash On Delivary"
-        onPress={() => navigation.navigate("OrderStackScreen")}
       />
     </View>
   );

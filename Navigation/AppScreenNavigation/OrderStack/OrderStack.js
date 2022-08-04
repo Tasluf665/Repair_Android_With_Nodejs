@@ -5,7 +5,7 @@ import { Octicons } from "@expo/vector-icons";
 import OrderScreen from "../../../screens/OrderScreen/OrderScreen";
 import OrderTrackScreen from "../../../screens/OrderScreen/OrderTrackScreen";
 import PaymentScreen from "../../../screens/PaymentScreen/PaymentScreen";
-import PaymentWebView from "../../../components/PaymentScreenComponent/WebView/PaymentWebView";
+import SSLCOMMERZ_Web_View from "../../../components/PaymentScreenComponent/WebView/SSLCOMMERZ_Web_View";
 import Colors from "../../../Constant/Colors";
 
 const Stack = createNativeStackNavigator();
@@ -40,10 +40,9 @@ export const OrderStack = () => {
         component={PaymentScreen}
         options={{ title: "Payment" }}
       />
-
       <Stack.Screen
-        name="PaymentWebView"
-        component={PaymentWebView}
+        name="SSLCOMMERZ_Web_View"
+        component={SSLCOMMERZ_Web_View}
         // options={{
         //   headerShown: false,
         // }}

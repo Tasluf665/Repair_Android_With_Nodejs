@@ -13,25 +13,17 @@ export default function DateTimeField(props) {
 
   const onChangeDate = async (event, selectedDate) => {
     if (selectedDate) {
-      let onlyDate =
-        selectedDate.getDate() +
-        "-" +
-        (selectedDate.getMonth() + 1) +
-        "-" +
-        selectedDate.getFullYear();
-
       setShowDate(false);
-      props.setFieldValue("date", onlyDate);
+      props.setFieldValue("arrivalDate", selectedDate.toISOString());
     } else {
       setShowDate(false);
     }
   };
 
-  const onChangeTime = async (event, selectedDate) => {
-    if (selectedDate) {
-      let onlyTime = selectedDate.getHours() + "." + selectedDate.getMinutes();
+  const onChangeTime = async (event, selectedTime) => {
+    if (selectedTime) {
       setShowTime(false);
-      props.setFieldValue("time", onlyTime);
+      props.setFieldValue("arrivalTime", selectedTime.toISOString());
     } else {
       setShowTime(false);
     }
@@ -48,7 +40,11 @@ export default function DateTimeField(props) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType={props.keyboardType}
-                value={props.values.date}
+                value={
+                  props.values.arrivalDate
+                    ? new Date(props.values.arrivalDate).toLocaleDateString()
+                    : ""
+                }
                 editable={false}
               />
               {showDate && (
@@ -79,7 +75,11 @@ export default function DateTimeField(props) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType={props.keyboardType}
-                value={props.values.time}
+                value={
+                  props.values.arrivalTime
+                    ? new Date(props.values.arrivalTime).toLocaleTimeString()
+                    : ""
+                }
                 editable={false}
               />
               {showTime && (

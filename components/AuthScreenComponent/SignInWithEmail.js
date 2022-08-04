@@ -43,7 +43,6 @@ export default function SignInWithEmail(props) {
       );
       if (authResult.error) {
         Alert.alert(authResult.error);
-        console.log(authResult.error);
       } else {
         await dispatch(
           authenticate(authResult.success._id, authResult.success.token, "")
