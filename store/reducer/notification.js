@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   notificationLoading: false,
-  notification: [],
+  notifications: [],
   notificationError: null,
   notificationCount: 0,
 };
@@ -25,7 +25,7 @@ const notificationReducer = (state = initialState, action) => {
     case FETCH_NOTIFICATION_SUCCESS: {
       return {
         ...state,
-        notification: action.notification,
+        notifications: action.notifications,
         notificationLoading: false,
         notificationError: null,
       };

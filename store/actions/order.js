@@ -71,32 +71,3 @@ export const addOrder = (order) => {
     }
   };
 };
-
-export const makePayment = (paymentInfo) => {
-  return async (dispatch, getState) => {
-    const token = getState().auth.token;
-    const userId = getState().auth.userId;
-
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/orders/${userId}/Orders/${paymentInfo.orderId}.json?auth=${token}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(paymentInfo),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.error) {
-          throw data.error;
-        } else {
-          console.log("Payment is Successfull");
-        }
-      })
-      .catch((error) => {
-        console.log("Payment is Unsuccessfull");
-      });
-  };
-};

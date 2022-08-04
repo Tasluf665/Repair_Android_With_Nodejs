@@ -8,25 +8,34 @@ export const fetchNotification = () => {
   return async (dispatch, getState) => {
     dispatch({ type: FETCH_NOTIFICATION_REQUEST });
     const token = getState().auth.token;
-    const userId = getState().auth.userId;
 
-    fetch(
-      `https://repair-45f86-default-rtdb.asia-southeast1.firebasedatabase.app/orders/${userId}/Notifications.json?auth=${token}`
-    )
-      .then((response) => response.json())
-      .then((notification) => {
-        if (notification && notification.error) {
-          throw notification.error;
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/api/users/notifications/`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
         }
+      );
 
-        dispatch({
-          type: FETCH_NOTIFICATION_SUCCESS,
-          notification: notification != null ? notification.reverse() : [],
-        });
-      })
-      .catch((error) => {
-        dispatch({ type: FETCH_NOTIFICATION_FAILURE, error: error });
+      const data = await response.json();
+      console.log(data);
+
+      if (data && data.error) {
+        throw data.error;
+      }
+
+      dispatch({
+        type: FETCH_NOTIFICATION_SUCCESS,
+        notifications:
+          data.notifications != null ? data.notifications.reverse() : [],
       });
+    } catch (error) {
+      dispatch({ type: FETCH_NOTIFICATION_FAILURE, error: error });
+    }
   };
 };
 

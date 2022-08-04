@@ -72,7 +72,6 @@ export default function SignUpWithEmail(props) {
             ref={nameInput}
             style={styles.textInput}
             onChangeText={setName}
-            keyboardType="text"
           />
           <Text
             style={[styles.text, { fontFamily: CustomeFonts.RobotoSlabBold }]}

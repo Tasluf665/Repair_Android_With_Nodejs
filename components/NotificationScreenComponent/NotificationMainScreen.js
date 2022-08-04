@@ -14,7 +14,9 @@ import { authRefreshToken } from "../../store/actions/auth";
 
 export default function NotificationMainScreen() {
   const dispatch = useDispatch();
-  const notification = useSelector((state) => state.notification.notification);
+  const notifications = useSelector(
+    (state) => state.notification.notifications
+  );
   const notificationLoading = useSelector(
     (state) => state.notification.notificationLoading
   );
@@ -37,6 +39,7 @@ export default function NotificationMainScreen() {
     dispatch(fetchNotification());
     dispatch(resetNotificationCount());
   }, [dispatch]);
+
   return (
     <View style={{ flex: 1, backgroundColor: Colors.Primary_Helper }}>
       {notificationLoading ? (
@@ -45,12 +48,12 @@ export default function NotificationMainScreen() {
         <FlatList
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.time}
-          data={notification}
+          data={notifications}
           renderItem={({ item }) => (
             <NotificationCard
-              details={item.details}
-              state={item.state}
-              time={item.time}
+              details={item.statusDetails}
+              state={item.statusState}
+              time={new Date(item.time).toLocaleString()}
               orderId={item.orderId}
             />
           )}

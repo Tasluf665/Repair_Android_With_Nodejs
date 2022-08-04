@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import React, { useRef } from "react";
+import React from "react";
 import { WebView } from "react-native-webview";
 import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
