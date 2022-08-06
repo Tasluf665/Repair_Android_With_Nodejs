@@ -27,7 +27,6 @@ const OrderMainScreen = () => {
   }, [orderError]);
 
   useEffect(() => {
-    console.log("Here");
     dispatch(fetchOrder());
   }, []);
 
