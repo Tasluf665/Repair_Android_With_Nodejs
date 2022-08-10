@@ -80,8 +80,6 @@ const FullPage = ({ item, brands, productId }) => {
               values.statusDetails = "Your order is pending";
               values.statusState = "Pending";
 
-              console.log(values);
-
               dispatch(addOrder(values));
               actions.resetForm({ values: initValue });
               navigation.goBack();
