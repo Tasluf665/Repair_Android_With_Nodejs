@@ -26,14 +26,14 @@ const FormSchema = Yup.object().shape({
   arrivalDate: Yup.string().required("* Required"),
   arrivalTime: Yup.string().required("* Required"),
   address: Yup.string().required("* Required"),
-  product: Yup.string().required("* Required"),
-  type: Yup.string().required("* Required"),
+  brand: Yup.string().required("* Required"),
+  model: Yup.string().required("* Required"),
   problem: Yup.string().required("* Required"),
   note: Yup.string().required("* Required"),
   phone: Yup.string().required("* Required"),
 });
 
-const FullPage = (props) => {
+const FullPage = ({ item, brands, productId }) => {
   const address = useSelector((state) => state.user.address);
   const defaultAddress = useSelector((state) => state.user.defaultAddress);
   const defAddress = address.find((item) => item._id === defaultAddress);
@@ -57,8 +57,8 @@ const FullPage = (props) => {
     address: defAddress
       ? `${defAddress.address}, ${defAddress.area}, ${defAddress.city}, ${defAddress.region}`
       : "",
-    product: "",
-    type: "",
+    brand: "",
+    model: "",
     problem: "",
     note: "",
     phone: defAddress ? defAddress.phone : "",
@@ -70,19 +70,21 @@ const FullPage = (props) => {
         <CustomeActivityIndicator />
       ) : (
         <View style={styles.container}>
-          <TopPart iconName={props.iconName} />
+          <TopPart iconName={item.iconName} />
           <Formik
             initialValues={initValue}
             validationSchema={FormSchema}
             onSubmit={(values, actions) => {
               values.category = "Repairing";
-              values.categoryType = props.iconName;
+              values.categoryType = item.iconName;
               values.statusDetails = "Your order is pending";
               values.statusState = "Pending";
 
+              console.log(values);
+
               dispatch(addOrder(values));
               actions.resetForm({ values: initValue });
-              navigation.replace("HomeStackScreen");
+              navigation.goBack();
             }}
           >
             {({
@@ -123,6 +125,8 @@ const FullPage = (props) => {
                   values={values}
                   errors={errors}
                   touched={touched}
+                  brands={brands}
+                  productId={productId}
                 />
 
                 <InputField

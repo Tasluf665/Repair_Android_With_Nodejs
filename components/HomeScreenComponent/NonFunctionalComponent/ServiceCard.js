@@ -6,24 +6,26 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-function ServiceCard({ iconName, onPress, iconColor, backgroundColor, text }) {
+function ServiceCard({ onPress, iconColor, backgroundColor, item }) {
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         onPress();
-        navigation.navigate("OrderFormStackScreen", { iconName, text });
+        navigation.navigate("OrderFormStackScreen", {
+          item,
+        });
       }}
     >
       <View style={[styles.services, { backgroundColor }]}>
         <View style={styles.icon}>
           <MaterialCommunityIcons
-            name={iconName}
+            name={item.iconName}
             size={scale(35)}
             color={iconColor}
           />
         </View>
-        <Text style={[styles.iconText, { color: iconColor }]}>{text}</Text>
+        <Text style={[styles.iconText, { color: iconColor }]}>{item.name}</Text>
         <View style={styles.arrow}>
           <AntDesign name="rightcircle" size={scale(20)} color={iconColor} />
         </View>

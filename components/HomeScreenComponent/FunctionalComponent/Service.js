@@ -3,19 +3,19 @@ import { FlatList, View } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 
 import ServiceCard from "../NonFunctionalComponent/ServiceCard";
-import ServiceItems from "../../../Constant/ServiceItems";
 import HomeText from "../NonFunctionalComponent/HomeText";
 
 import Colors from "../../../Constant/Colors";
 
-function Services(props) {
+function Services({ serviceItem }) {
   const [selectedId, setSelectedId] = useState(null);
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, index }) => {
+    console.log(index);
     let backgroundColor;
     let color;
     if (selectedId == null) {
-      if (item.id == 1) {
+      if (index === 0) {
         backgroundColor = Colors.Primary;
         color = Colors.Primary_Helper;
       } else {
@@ -24,17 +24,17 @@ function Services(props) {
       }
     } else {
       backgroundColor =
-        item.id === selectedId ? Colors.Primary : Colors.Primary_Helper;
-      color = item.id === selectedId ? Colors.Primary_Helper : Colors.Secondary;
+        item._id === selectedId ? Colors.Primary : Colors.Primary_Helper;
+      color =
+        item._id === selectedId ? Colors.Primary_Helper : Colors.Secondary;
     }
 
     return (
       <ServiceCard
         iconColor={color}
-        onPress={() => setSelectedId(item.id)}
+        onPress={() => setSelectedId(item._id)}
         backgroundColor={backgroundColor}
-        icon={item.icon}
-        text={item.text}
+        item={item}
         iconName={item.iconName}
       />
     );
@@ -45,7 +45,8 @@ function Services(props) {
       <HomeText>Categories</HomeText>
       <View>
         <FlatList
-          data={ServiceItems}
+          keyExtractor={(item) => item._id}
+          data={serviceItem}
           renderItem={renderItem}
           horizontal
           showsHorizontalScrollIndicator={false}
