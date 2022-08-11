@@ -23,7 +23,6 @@ const OrderMainScreen = () => {
       dispatch(authRefreshToken(refresh_token));
       dispatch(fetchOrder());
     }
-    console.log(order);
   }, [orderError]);
 
   useEffect(() => {

@@ -11,7 +11,6 @@ function Services({ serviceItem }) {
   const [selectedId, setSelectedId] = useState(null);
 
   const renderItem = ({ item, index }) => {
-    console.log(index);
     let backgroundColor;
     let color;
     if (selectedId == null) {
