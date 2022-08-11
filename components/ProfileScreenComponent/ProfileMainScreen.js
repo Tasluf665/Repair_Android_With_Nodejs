@@ -8,6 +8,7 @@ import PhoneCard from "./NonFunctionalComponent/PhoneCard";
 import BottomPart from "./NonFunctionalComponent/BottomPart";
 import Colors from "../../Constant/Colors";
 import CustomeActivityIndicator from "../Common/CustomeActivityIndicator";
+import { authRefreshToken } from "../../store/actions/auth";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/auth";
@@ -19,14 +20,16 @@ export default function ProfileMainScreen() {
   const name = useSelector((state) => state.user.name);
   const userLoading = useSelector((state) => state.user.userLoading);
   const userError = useSelector((state) => state.user.userError);
+  const refresh_token = useSelector((state) => state.auth.refresh_token);
 
-  // const refresh_token = useSelector((state) => state.auth.refresh_token);
   useEffect(() => {
     if (userError) {
-      console.log(userError);
-      dispatch(logout());
-      // dispatch(authRefreshToken(refresh_token));
-      // dispatch(fetchUser());
+      console.log(
+        "🚀 ~ file: ProfileMainScreen.js ~ line 26 ~ useEffect ~ userError",
+        userError
+      );
+      dispatch(authRefreshToken(refresh_token));
+      dispatch(fetchUser());
     }
   }, [userError]);
 

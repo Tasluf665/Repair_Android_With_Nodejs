@@ -1,3 +1,4 @@
+import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AUTHENTICATE = "AUTHENTICATE";
@@ -25,39 +26,32 @@ export const authRefreshToken = (refreshToken) => {
   return async (dispatch, getState) => {
     if (refreshToken) {
       try {
-        let xhr = new XMLHttpRequest();
-        xhr.open(
-          "POST",
-          "https://securetoken.googleapis.com/v1/token?key=AIzaSyA5CiWXB6Kbnpp_dHn-k-yHC9T3wACNBLY"
-        );
-
-        xhr.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
-
-        xhr.onreadystatechange = function () {
-          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            const result = JSON.parse(this.response);
-
-            dispatch({
-              type: AUTHENTICATE,
-              userId: result.user_id,
-              token: result.id_token,
-              refresh_token: result.refresh_token,
-            });
-            saveDataToStorage(
-              result.id_token,
-              result.user_id,
-              result.refresh_token
-            );
-          } else {
-            // dispatch(logout());
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/auth/newToken`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "refresh-token": refreshToken,
+            },
+            method: "POST",
           }
-        };
-        xhr.send(`grant_type=refresh_token&refresh_token=${refreshToken}`);
-      } catch (err) {
-        console.log(err.message);
+        );
+
+        const result = await response.json();
+
+        if (!result.error) {
+          dispatch({
+            type: AUTHENTICATE,
+            userId: result.data._id,
+            token: result.data.token,
+            refresh_token: result.data.refreshToken,
+          });
+        } else {
+          dispatch(logout());
+        }
+      } catch (ex) {
+        console.log("🚀 ~ file: auth.js ~ line 78 ~ return ~ ex", ex.message);
+
         dispatch(logout());
       }
     } else {
@@ -72,7 +66,7 @@ export const logout = () => {
       await AsyncStorage.removeItem("userData");
       dispatch({ type: LOGOUT });
     } catch (err) {
-      console.log("User log out error. ", err.message);
+      console.log("🚀 ~ file: auth.js ~ line 68 ~ return ~ err", err);
     }
   };
 };
@@ -88,6 +82,6 @@ const saveDataToStorage = async (token, userId, refresh_token) => {
       })
     );
   } catch (err) {
-    console.log("In auth action at saveDataToStorage function: ", err.message);
+    console.log("🚀 ~ file: auth.js ~ line 84 ~ saveDataToStorage ~ err", err);
   }
 };

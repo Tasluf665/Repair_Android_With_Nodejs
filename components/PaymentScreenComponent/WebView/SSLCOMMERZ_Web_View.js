@@ -15,18 +15,25 @@ export default function SSLCOMMERZ_Web_View({ route }) {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/payments/${orderId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/payments/${orderId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+          }
+        );
 
-      const result = await response.json();
-      setGateWayPageUrl(result.GatewayPageURL);
+        const result = await response.json();
+        setGateWayPageUrl(result.data);
+      } catch (ex) {
+        console.log(
+          "🚀 ~ file: SSLCOMMERZ_Web_View.js ~ line 36 ~ fetchData ~ ex",
+          ex
+        );
+      }
     };
     fetchData();
   }, []);

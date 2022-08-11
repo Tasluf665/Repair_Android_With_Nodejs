@@ -25,14 +25,18 @@ export const fetchUser = () => {
 
         dispatch({
           type: FETCH_USER_SUCCESS,
-          name: user && user.name ? user.name : "Not Set",
-          phone: user && user.phone ? user.phone : "Not Set",
-          email: user && user.email ? user.email : "Not Set",
-          gender: user && user.gender ? user.gender : "Not Set",
-          birthday: user && user.birthday ? user.birthday : "Not Set",
-          address: user && user.addressess ? user.addressess : [],
+          name: user.data && user.data.name ? user.data.name : "Not Set",
+          phone: user.data && user.data.phone ? user.data.phone : "Not Set",
+          email: user.data && user.data.email ? user.data.email : "Not Set",
+          gender: user.data && user.data.gender ? user.data.gender : "Not Set",
+          birthday:
+            user.data && user.data.birthday ? user.data.birthday : "Not Set",
+          address:
+            user.data && user.data.addressess ? user.data.addressess : [],
           defaultAddress:
-            user && user.defaultAddress ? user.defaultAddress : null,
+            user.data && user.data.defaultAddress
+              ? user.data.defaultAddress
+              : null,
         });
       })
       .catch((error) => dispatch({ type: FETCH_USER_FAILURE, error: error }));
@@ -88,17 +92,17 @@ export const updateUserAddress = (address) => {
           }
         );
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (data && data.error) {
-          throw data.error;
+        if (result && result.error) {
+          throw result.error;
         }
 
         dispatch({
           type: UPDATE_USER_ADDRESS,
           data: {
-            addressess: data.addressess,
-            defaultAddress: data.defaultAddress,
+            addressess: result.data,
+            defaultAddress: result.defaultAddress,
           },
         });
       } catch (error) {
@@ -119,17 +123,17 @@ export const updateUserAddress = (address) => {
           }
         );
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (data && data.error) {
-          throw data.error;
+        if (result && result.error) {
+          throw result.error;
         }
 
         dispatch({
           type: UPDATE_USER_ADDRESS,
           data: {
-            addressess: data.addressess,
-            defaultAddress: data.defaultAddress,
+            addressess: result.data,
+            defaultAddress: result.defaultAddress,
           },
         });
       } catch (error) {
@@ -161,17 +165,17 @@ export const deleteUserAddress = (addressId) => {
           }
         );
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (data && data.error) {
-          throw data.error;
+        if (result && result.error) {
+          throw result.error;
         }
 
         dispatch({
           type: UPDATE_USER_ADDRESS,
           data: {
-            addressess: data.addressess,
-            defaultAddress: data.defaultAddress,
+            addressess: result.data,
+            defaultAddress: result.defaultAddress,
           },
         });
       } catch (error) {

@@ -22,15 +22,15 @@ export const fetchOrder = () => {
         }
       );
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (data && data.error) {
-        throw data.error;
+      if (result && result.error) {
+        throw result.error;
       }
 
       dispatch({
         type: FETCH_ORDER_SUCCESS,
-        order: data.orders,
+        order: result.data,
       });
     } catch (error) {
       dispatch({ type: FETCH_ORDER_FAILURE, error: error });
@@ -56,14 +56,14 @@ export const addOrder = (order) => {
         }
       );
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (data && data.error) {
-        throw data.error;
+      if (result && result.error) {
+        throw result.error;
       } else {
         dispatch({
           type: ADD_ORDER_SUCCESS,
-          order: data.order,
+          order: result.data,
         });
       }
     } catch (error) {

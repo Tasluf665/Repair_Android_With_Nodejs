@@ -59,7 +59,7 @@ export async function GoogleSignIn(androidClientId, scopes = []) {
             expoPushToken,
           }
         );
-        return { success: response.data };
+        return response.data;
       } catch (ex) {
         return { error: ex.response ? ex.response.data.error : ex.message };
       }
@@ -80,7 +80,7 @@ export async function EmailSignIn(email, password) {
         password,
       }
     );
-    return { success: response.data };
+    return response.data;
   } catch (ex) {
     return { error: ex.response ? ex.response.data.error : ex.message };
   }
@@ -100,7 +100,7 @@ export async function EmailSignUp(name, email, password) {
       }
     );
 
-    return { success: response.data };
+    return response.data;
   } catch (ex) {
     return { error: ex.response ? ex.response.data.error : ex.message };
   }
@@ -115,7 +115,7 @@ export async function ForgotPassword(email) {
       }
     );
 
-    return { success: response.data.success };
+    return response.data;
   } catch (ex) {
     return { error: ex.response ? ex.response.data.error : ex.message };
   }

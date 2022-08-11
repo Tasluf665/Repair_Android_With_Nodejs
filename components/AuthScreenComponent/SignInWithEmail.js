@@ -44,8 +44,12 @@ export default function SignInWithEmail(props) {
       if (authResult.error) {
         Alert.alert(authResult.error);
       } else {
-        await dispatch(
-          authenticate(authResult.success._id, authResult.success.token, "")
+        dispatch(
+          authenticate(
+            authResult.data._id,
+            authResult.data.token,
+            authResult.data.refreshToken
+          )
         );
       }
     } catch (err) {
@@ -59,8 +63,12 @@ export default function SignInWithEmail(props) {
     if (authResult.error) {
       Alert.alert(authResult.error);
     } else {
-      await dispatch(
-        authenticate(authResult.success._id, authResult.success.token, "")
+      dispatch(
+        authenticate(
+          authResult.data._id,
+          authResult.data.token,
+          authResult.data.refreshToken
+        )
       );
     }
   };

@@ -37,7 +37,7 @@ export default function SignUpWithEmail(props) {
         if (authResult.error) {
           Alert.alert(authResult.error);
         } else {
-          Alert.alert(authResult.success.message);
+          Alert.alert(authResult.success);
           props.navigation.navigate("SignInWithEmail");
         }
       } else {

@@ -1,7 +1,8 @@
 import { View, Text, ScrollView, Button } from "react-native";
 import React from "react";
 import { ScaledSheet } from "react-native-size-matters";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { authRefreshToken } from "../../store/actions/auth";
 import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../../Constant/Colors";
@@ -11,6 +12,8 @@ import CustomeActivityIndicator from "../Common/CustomeActivityIndicator";
 
 export default function OrderTrackMainScreen(props) {
   const token = useSelector((state) => state.auth.token);
+  const refresh_token = useSelector((state) => state.auth.refresh_token);
+  const dispatch = useDispatch();
 
   const [allOrderDetails, setAllOrderDetails] = React.useState(null);
   const [technician, setTechnician] = React.useState(null);
@@ -32,34 +35,41 @@ export default function OrderTrackMainScreen(props) {
           }
         );
 
-        const data = await response.json();
+        const result = await response.json();
 
-        if (data.order.technicianId) {
-          const res = await fetch(
-            `${process.env.BACKEND_BASE_URL}/api/technicians/${data.order.technicianId}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": token,
-              },
-            }
-          );
+        if (!result.error) {
+          if (result.data.technicianId) {
+            const res = await fetch(
+              `${process.env.BACKEND_BASE_URL}/api/technicians/${result.data.technicianId}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  "x-auth-token": token,
+                },
+              }
+            );
 
-          const result = await res.json();
+            const result2 = await res.json();
 
-          if (result.success) setTechnician(result.technician);
+            if (result2.success) setTechnician(result2.data);
+          }
+
+          setAllOrderDetails(result.data);
+          setTrackData(result.data.status);
+          setLoading(false);
+        } else {
+          dispatch(authRefreshToken(refresh_token));
         }
-
-        setAllOrderDetails(data.order);
-        setTrackData(data.order.status);
-        setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(
+          "🚀 ~ file: OrderTrackMainScreen.js ~ line 68 ~ getData ~ error",
+          error
+        );
       }
     };
 
     getData();
-  }, []);
+  }, [token]);
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.Primary_Helper }}>
@@ -91,9 +101,12 @@ export default function OrderTrackMainScreen(props) {
               </View>
             ) : null}
 
-            {props.history ? null : trackData.find(
-                (item) => item.statusState === "Product Repaired"
-              ) ? (
+            {trackData.find(
+              (item) => item.statusState === "Product Repaired" // 0 0 = 0 ; 1 0 = 1 ; 1 1 = 0
+            ) &&
+            !trackData.find(
+              (item) => item.statusState === "Payment Complete"
+            ) ? (
               <View style={styles.buttonContainer}>
                 <Button
                   title={

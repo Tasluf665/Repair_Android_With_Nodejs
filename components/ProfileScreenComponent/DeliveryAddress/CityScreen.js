@@ -2,7 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { ScaledSheet } from "react-native-size-matters";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { authRefreshToken } from "../../../store/actions/auth";
 
 import CommonAddressScreen from "./NonFunctionalComponent/CommonAddressScreen";
 import CustomeActivityIndicator from "../../Common/CustomeActivityIndicator";
@@ -13,6 +14,8 @@ export default function CityScreen(props) {
   const [loading, setLoading] = React.useState(false);
 
   const token = useSelector((state) => state.auth.token);
+  const refresh_token = useSelector((state) => state.auth.refresh_token);
+  const dispatch = useDispatch();
 
   const renderItem = ({ item }) => (
     <View style={styles.name} key={item.displayName}>
@@ -43,15 +46,19 @@ export default function CityScreen(props) {
             },
           }
         );
-        const res = await req.json();
-        setData(res);
-        setLoading(false);
+        const result = await req.json();
+        if (!result.error) {
+          setData(result.data);
+          setLoading(false);
+        } else {
+          dispatch(authRefreshToken(refresh_token));
+        }
       } catch (ex) {
         console.log(ex);
       }
     };
     getdata();
-  }, []);
+  }, [token]);
   return (
     <>
       {loading ? (

@@ -5,25 +5,40 @@ import { ScaledSheet } from "react-native-size-matters";
 
 import Colors from "../../../Constant/Colors";
 import CustomeFonts from "../../../Constant/CustomeFonts";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { authRefreshToken } from "../../../store/actions/auth";
 
 export default function PickerField(props) {
   const [models, setModels] = React.useState([]);
   const token = useSelector((state) => state.auth.token);
+  const refresh_token = useSelector((state) => state.auth.refresh_token);
+  const dispatch = useDispatch();
 
   const handleProductChange = async (brandId) => {
-    const response = await fetch(
-      `${process.env.BACKEND_BASE_URL}/api/products/models/${props.productId}/${brandId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": token,
-        },
-      }
-    );
+    try {
+      const response = await fetch(
+        `${process.env.BACKEND_BASE_URL}/api/products/models/${props.productId}/${brandId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
 
-    const result = await response.json();
-    setModels(result.models);
+      const result = await response.json();
+
+      if (!result.error) {
+        setModels(result.data);
+      } else {
+        dispatch(authRefreshToken(refresh_token));
+      }
+    } catch (ex) {
+      console.log(
+        "🚀 ~ file: PickerField.js ~ line 19 ~ handleProductChange ~ ex",
+        ex
+      );
+    }
   };
   return (
     <View style={styles.rowContainer}>

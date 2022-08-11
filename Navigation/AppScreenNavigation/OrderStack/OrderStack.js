@@ -43,9 +43,6 @@ export const OrderStack = () => {
       <Stack.Screen
         name="SSLCOMMERZ_Web_View"
         component={SSLCOMMERZ_Web_View}
-        // options={{
-        //   headerShown: false,
-        // }}
         options={{ title: "Payment" }}
       />
     </Stack.Navigator>

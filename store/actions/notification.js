@@ -21,16 +21,15 @@ export const fetchNotification = () => {
         }
       );
 
-      const data = await response.json();
+      const result = await response.json();
 
-      if (data && data.error) {
-        throw data.error;
+      if (result && result.error) {
+        throw result.error;
       }
 
       dispatch({
         type: FETCH_NOTIFICATION_SUCCESS,
-        notifications:
-          data.notifications != null ? data.notifications.reverse() : [],
+        notifications: result.data != null ? result.data.reverse() : [],
       });
     } catch (error) {
       dispatch({ type: FETCH_NOTIFICATION_FAILURE, error: error });

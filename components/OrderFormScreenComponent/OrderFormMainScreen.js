@@ -36,23 +36,34 @@ export default function OrderFormMainScreen({ item }) {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/products/brands/${item._id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_BASE_URL}/api/products/brands/${item._id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": token,
+            },
+          }
+        );
 
-      const result = await response.json();
-      setBrands(result.brands);
+        const result = await response.json();
+        if (!result.error) {
+          setBrands(result.data);
+        } else {
+          dispatch(authRefreshToken(refresh_token));
+        }
+      } catch (ex) {
+        console.log(
+          "🚀 ~ file: OrderFormMainScreen.js ~ line 57 ~ getData ~ ex",
+          ex
+        );
+      }
     };
 
     getData();
     dispatch(fetchUser());
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.Primary_Helper }}>

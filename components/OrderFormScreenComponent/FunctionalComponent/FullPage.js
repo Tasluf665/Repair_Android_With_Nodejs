@@ -44,7 +44,10 @@ const FullPage = ({ item, brands, productId }) => {
 
   useEffect(() => {
     if (orderError) {
-      console.log(orderError);
+      console.log(
+        "🚀 ~ file: FullPage.js ~ line 47 ~ useEffect ~ orderError",
+        orderError
+      );
       dispatch(authRefreshToken(refresh_token));
     }
   }, [orderError]);
