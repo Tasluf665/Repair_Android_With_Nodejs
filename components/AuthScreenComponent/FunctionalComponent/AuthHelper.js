@@ -2,6 +2,11 @@
 //Youtube Video For Facebook Auth https://www.youtube.com/watch?v=xmevqnn_ipw
 //Use Firebase 9.6.11. Higher version may show error
 
+//Expo push notification token fetched problem. It's the problem with expo. Nothing to do. This problem only occure in expo-cli. Work perfectly when we delpoyed. Ref: https://github.com/expo/expo/issues/18570
+//Notifications.requestPermissionsAsync(); This function throw error in expo cli
+
+//When we deploy, to use Google sing we have to follow some steps. ref: https://docs.expo.dev/versions/v43.0.0/sdk/google/
+
 import * as Google from "expo-google-app-auth";
 import axios from "axios";
 import * as Device from "expo-device";
@@ -42,6 +47,8 @@ export async function GoogleSignIn(androidClientId, scopes = []) {
   try {
     const result = await Google.logInAsync({
       androidClientId: androidClientId,
+      // androidStandaloneAppClientId:
+      //   process.env.ANDROID_STANDAL_ONE_APP_CLIENT_ID,
       scopes: scopes.length === 0 ? ["profile", "email"] : scopes,
     });
 
@@ -67,6 +74,7 @@ export async function GoogleSignIn(androidClientId, scopes = []) {
       return { error: "Permission Denied" };
     }
   } catch (err) {
+    console.log("🚀 ~ file: AuthHelper.js ~ line 77 ~ GoogleSignIn ~ err", err);
     return { error: err.message };
   }
 }
