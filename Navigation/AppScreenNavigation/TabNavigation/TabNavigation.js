@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { HomeStack } from "./HomeStack/HomeStack";
 import { ProfileStack } from "./ProfileStack/ProfileScreenStack";
+import { OrderStack } from "../OrderStack/OrderStack";
 import Colors from "../../../Constant/Colors";
 
 const Tab = createBottomTabNavigator();
@@ -16,10 +17,8 @@ const TabNavigation = () => {
           let iconName;
           if (route.name === "HomeTab") {
             iconName = "home";
-          } else if (route.name === "BuyTab") {
+          } else if (route.name === "OrderTab") {
             iconName = "shopping-cart";
-          } else if (route.name === "SellTab") {
-            iconName = "attach-money";
           } else if (route.name === "ProfileTab") {
             iconName = "person";
           }
@@ -36,6 +35,12 @@ const TabNavigation = () => {
         name="HomeTab"
         component={HomeStack}
         options={{ title: "Home" }}
+      />
+
+      <Tab.Screen
+        name="OrderTab"
+        component={OrderStack}
+        options={{ title: "cart" }}
       />
 
       <Tab.Screen

@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-import MainNavigator from "./AppScreenNavigation/MainNavigation";
+import TabNavigation from "./AppScreenNavigation/TabNavigation/TabNavigation";
 import { AuthStack } from "./AuthScreenNavigation/AuthStack";
 import StartupScreen from "../StartupScreen";
 
@@ -12,7 +12,7 @@ const AppContainer = () => {
 
   return (
     <NavigationContainer>
-      {isAuth && <MainNavigator />}
+      {isAuth && <TabNavigation />}
       {!isAuth && didTryAutoLogin && <AuthStack />}
       {!isAuth && !didTryAutoLogin && <StartupScreen />}
     </NavigationContainer>

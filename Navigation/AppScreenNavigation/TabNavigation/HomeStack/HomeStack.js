@@ -59,15 +59,7 @@ export const HomeStack = () => {
       <Stack.Screen
         name="HomeStackScreen"
         component={HomeScreen}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Octicons
-              name="three-bars"
-              size={24}
-              color={Colors.Primary_Helper}
-              onPress={() => navigation.toggleDrawer()}
-            />
-          ),
+        options={() => ({
           headerRight: () => (
             <HomePageNotificationIcon notificationCount={notificationCount} />
           ),
