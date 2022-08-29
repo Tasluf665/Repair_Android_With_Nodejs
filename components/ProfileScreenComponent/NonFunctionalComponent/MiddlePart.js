@@ -12,7 +12,6 @@ const MiddlePart = () => {
         title="History"
         onPress={() => navigation.navigate("HistoryStack")}
       />
-      <CardView iconName="credit-card" title="Digital Payment" />
       <CardView
         iconName="user-circle-o"
         title="Profile"

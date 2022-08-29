@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableNativeFeedback } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 
 import Colors from "../../../Constant/Colors";
@@ -7,10 +7,17 @@ import Colors from "../../../Constant/Colors";
 const TopPart = (props) => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require("../../../assets/Images/Rhyme.jpg")}
-      />
+      <TouchableNativeFeedback
+        onPress={() => {
+          console.log("Touched");
+        }}
+      >
+        <Image
+          style={styles.image}
+          source={require("../../../assets/Images/Rhyme.jpg")}
+        />
+      </TouchableNativeFeedback>
+
       <Text style={styles.text}>{props.name}</Text>
     </View>
   );

@@ -33,7 +33,7 @@ const styles = ScaledSheet.create({
     padding: "20@vs",
     justifyContent: "center",
     flexDirection: "row",
-    marginTop: "50@vs",
+    marginTop: "80@vs",
   },
   text: {
     fontFamily: "RobotoSlabRegular",

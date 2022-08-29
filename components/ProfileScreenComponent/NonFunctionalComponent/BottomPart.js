@@ -24,7 +24,6 @@ const BottomPart = () => {
   return (
     <View style={styles.container}>
       <Card title="Privacy Policy" iconName="arrow-forward-ios" />
-      <Card title="English" iconName="arrow-forward-ios" />
       <Card title="Help" iconName="arrow-forward-ios" size={0} />
     </View>
   );
