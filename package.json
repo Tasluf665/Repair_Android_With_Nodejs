@@ -46,7 +46,8 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "yup": "^0.32.11",
-    "expo-image-picker": "~12.0.1"
+    "expo-image-picker": "~12.0.1",
+    "expo-file-system": "~13.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
