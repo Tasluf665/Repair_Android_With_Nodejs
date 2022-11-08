@@ -1,13 +1,13 @@
 //Youtube Video For Google Auth https://www.youtube.com/watch?v=QT0PXhH9uTg&t=659s
 //Youtube Video For Facebook Auth https://www.youtube.com/watch?v=xmevqnn_ipw
 //Use Firebase 9.6.11. Higher version may show error
+//New Google Auth by expo-auth-session https://www.youtube.com/watch?v=YX7IWOQIKA0&t=439s
 
 //Expo push notification token fetched problem. It's the problem with expo. Nothing to do. This problem only occure in expo-cli. Work perfectly when we delpoyed. Ref: https://github.com/expo/expo/issues/18570
 //Notifications.requestPermissionsAsync(); This function throw error in expo cli
 
 //When we deploy, to use Google sing we have to follow some steps. ref: https://docs.expo.dev/versions/v43.0.0/sdk/google/
 
-import * as Google from "expo-google-app-auth";
 import axios from "axios";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
@@ -44,39 +44,31 @@ export async function registerForPushNotificationsAsync() {
   return token;
 }
 
-export async function GoogleSignIn(androidClientId, scopes = []) {
+export async function GoogleSignIn(authentication) {
   try {
-    const result = await Google.logInAsync({
-      androidClientId: androidClientId,
-      // androidStandaloneAppClientId:
-      //   process.env.ANDROID_STANDAL_ONE_APP_CLIENT_ID,
-      scopes: scopes.length === 0 ? ["profile", "email"] : scopes,
-    });
+    const myProfile = await axios.get(
+      "https://www.googleapis.com/userinfo/v2/me",
+      {
+        headers: { Authorization: `Bearer ${authentication.accessToken}` },
+      }
+    );
 
     const expoPushToken = await registerForPushNotificationsAsync();
 
-    if (result.type === "success") {
-      try {
-        const response = await axios.post(
-          `${setting.apiUrl}/api/users/google`,
-          {
-            name: result.user.name,
-            email: result.user.email,
-            googleId: result.user.id,
-            accessToken: result.accessToken,
-            expoPushToken,
-          }
-        );
-        return response.data;
-      } catch (ex) {
-        return { error: ex.response ? ex.response.data.error : ex.message };
-      }
-    } else {
-      return { error: "Permission Denied" };
-    }
-  } catch (err) {
-    console.log("🚀 ~ file: AuthHelper.js ~ line 77 ~ GoogleSignIn ~ err", err);
-    return { error: err.message };
+    const response = await axios.post(`${setting.apiUrl}/api/users/google`, {
+      name: myProfile.data.name,
+      email: myProfile.data.email,
+      googleId: myProfile.data.id,
+      accessToken: authentication.accessToken,
+      expoPushToken,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: AuthHelper.js ~ line 67 ~ GoogleSignIn ~ error",
+      error
+    );
   }
 }
 

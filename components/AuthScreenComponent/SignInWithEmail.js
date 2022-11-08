@@ -17,6 +17,7 @@ import TitleText from "./NonFunctionalComponent/TitleText";
 import PasswordTextInput from "./NonFunctionalComponent/PasswordTextInput";
 import CustomeFonts from "../../Constant/CustomeFonts";
 import Colors from "../../Constant/Colors";
+import * as Google from "expo-auth-session/providers/google";
 
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../store/actions/auth";
@@ -28,6 +29,33 @@ export default function SignInWithEmail(props) {
   const [password, setPassword] = React.useState();
   const [email, setEmail] = React.useState();
 
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: process.env.EXPO_GO_PROXY,
+  });
+
+  React.useEffect(() => {
+    const getData = async () => {
+      if (response?.type === "success") {
+        const { authentication } = response;
+        const authResult = await AuthHelper.GoogleSignIn(authentication);
+
+        if (authResult.error) {
+          Alert.alert(authResult.error);
+        } else {
+          dispatch(
+            authenticate(
+              authResult.data._id,
+              authResult.data.token,
+              authResult.data.refreshToken
+            )
+          );
+        }
+      }
+    };
+
+    getData();
+  }, [response]);
+
   const emailInput = React.useRef(null);
 
   React.useEffect(() => {
@@ -35,27 +63,6 @@ export default function SignInWithEmail(props) {
       emailInput.current.focus();
     }
   }, [emailInput]);
-
-  const handleGoogleLoginBtn = async () => {
-    try {
-      const authResult = await AuthHelper.GoogleSignIn(
-        process.env.ANDROID_CLIENT_ID
-      );
-      if (authResult.error) {
-        Alert.alert(authResult.error);
-      } else {
-        dispatch(
-          authenticate(
-            authResult.data._id,
-            authResult.data.token,
-            authResult.data.refreshToken
-          )
-        );
-      }
-    } catch (err) {
-      console.log(`In SignInWithPhone at : Google`, err.message);
-    }
-  };
 
   const handleEmailSubmittion = async () => {
     const authResult = await AuthHelper.EmailSignIn(email, password);
@@ -137,7 +144,7 @@ export default function SignInWithEmail(props) {
 
           <SocialButton
             social="google"
-            onPress={() => handleGoogleLoginBtn()}
+            onPress={() => promptAsync()}
             color={Colors.GoogleColor}
             text="Continue with Google"
           />

@@ -5,11 +5,9 @@ import { useDispatch } from "react-redux";
 
 import { authenticate, setDidTryAl } from "./store/actions/auth";
 import Colors from "./Constant/Colors";
-import setting from "./Constant/setting";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
-  console.log(setting.apiUrl);
 
   useEffect(() => {
     const tryLogin = async () => {

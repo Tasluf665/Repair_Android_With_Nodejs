@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableNativeFeedback } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
+import { useSelector } from "react-redux";
 
 import Colors from "../../../Constant/Colors";
 
 const TopPart = (props) => {
   const [imageUri, setImageUri] = useState();
+  const userId = useSelector((state) => state.auth.userId);
 
   const requestPermission = async () => {
     const result = await ImagePicker.requestCameraPermissionsAsync();
@@ -26,28 +29,35 @@ const TopPart = (props) => {
         FileSystem.documentDirectory
       );
 
-      if (res.includes("myimg.jpg")) {
-        setImageUri(FileSystem.documentDirectory + "myimg.jpg");
+      if (res.includes(`${userId}.jpeg`)) {
+        setImageUri(FileSystem.documentDirectory + `${userId}.jpeg`);
       }
     };
     getData();
     return () => {
-      setImageUri(FileSystem.documentDirectory + "myimg.jpg");
+      // setImageUri(FileSystem.documentDirectory + `${userId}.jpeg`);
     };
   }, []);
 
   const selectImage = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.cancelled) {
-        const newPath = FileSystem.documentDirectory + "myimg.jpg";
+
+      const manipResult = await manipulateAsync(
+        result.localUri || result.uri,
+        [],
+        { compress: 1, format: SaveFormat.JPEG }
+      );
+
+      if (!manipResult.cancelled) {
+        const newPath = FileSystem.documentDirectory + `${userId}.jpeg`;
 
         await FileSystem.copyAsync({
-          from: result.uri,
+          from: manipResult.uri,
           to: newPath,
         });
 
-        setImageUri(result.uri);
+        setImageUri(manipResult.uri);
       }
     } catch (error) {
       console.log(
