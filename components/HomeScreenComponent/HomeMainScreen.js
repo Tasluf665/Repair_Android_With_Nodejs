@@ -8,6 +8,7 @@ import Offers from "./FunctionalComponent/Offers";
 import Colors from "../../Constant/Colors";
 import CustomeActivityIndicator from "../Common/CustomeActivityIndicator";
 import { authRefreshToken } from "../../store/actions/auth";
+import setting from "../../Constant/setting";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -21,15 +22,12 @@ export default function HomeMainScreen() {
   React.useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/products`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": token,
-            },
-          }
-        );
+        const response = await fetch(`${setting.apiUrl}/api/products`, {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        });
 
         const result = await response.json();
 

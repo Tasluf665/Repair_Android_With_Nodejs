@@ -9,6 +9,7 @@ import { fetchUser } from "../../store/actions/user";
 import FullPage from "./FunctionalComponent/FullPage";
 import CustomeActivityIndicator from "../Common/CustomeActivityIndicator";
 import Colors from "../../Constant/Colors";
+import setting from "../../Constant/setting";
 
 export default function OrderFormMainScreen({ item }) {
   const navigation = useNavigation();
@@ -38,7 +39,7 @@ export default function OrderFormMainScreen({ item }) {
     const getData = async () => {
       try {
         const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/products/brands/${item._id}`,
+          `${setting.apiUrl}/api/products/brands/${item._id}`,
           {
             headers: {
               "Content-Type": "application/json",

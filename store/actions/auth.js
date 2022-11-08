@@ -1,5 +1,6 @@
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import setting from "../../Constant/setting";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
@@ -26,16 +27,13 @@ export const authRefreshToken = (refreshToken) => {
   return async (dispatch, getState) => {
     if (refreshToken) {
       try {
-        const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/auth/newToken`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "refresh-token": refreshToken,
-            },
-            method: "POST",
-          }
-        );
+        const response = await fetch(`${setting.apiUrl}/api/auth/newToken`, {
+          headers: {
+            "Content-Type": "application/json",
+            "refresh-token": refreshToken,
+          },
+          method: "POST",
+        });
 
         const result = await response.json();
 

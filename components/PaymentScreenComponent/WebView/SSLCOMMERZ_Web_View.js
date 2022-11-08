@@ -5,6 +5,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchOrder } from "../../../store/actions/order";
+import setting from "../../../Constant/setting";
 
 export default function SSLCOMMERZ_Web_View({ route }) {
   const orderId = route.params.orderId;
@@ -17,7 +18,7 @@ export default function SSLCOMMERZ_Web_View({ route }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/payments/${orderId}`,
+          `${setting.apiUrl}/api/payments/${orderId}`,
           {
             headers: {
               "Content-Type": "application/json",

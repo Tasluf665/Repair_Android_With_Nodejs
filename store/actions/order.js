@@ -4,6 +4,7 @@ export const ADD_ORDER_FAILURE = "ADD_ORDER_FAILURE";
 export const FETCH_ORDER_FAILURE = "FETCH_ORDER_FAILURE";
 export const FETCH_ORDER_REQUEST = "FETCH_ORDER_REQUEST";
 export const FETCH_ORDER_SUCCESS = "FETCH_ORDER_SUCCESS";
+import setting from "../../Constant/setting";
 
 export const fetchOrder = () => {
   return async (dispatch, getState) => {
@@ -11,16 +12,13 @@ export const fetchOrder = () => {
     const token = getState().auth.token;
 
     try {
-      const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/users/orders/`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        }
-      );
+      const response = await fetch(`${setting.apiUrl}/api/users/orders/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      });
 
       const result = await response.json();
 
@@ -44,17 +42,14 @@ export const addOrder = (order) => {
     const token = getState().auth.token;
 
     try {
-      const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/orders/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-          body: JSON.stringify(order),
-        }
-      );
+      const response = await fetch(`${setting.apiUrl}/api/orders/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify(order),
+      });
 
       const result = await response.json();
 

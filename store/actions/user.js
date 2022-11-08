@@ -6,12 +6,14 @@ export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
 export const UPDATE_USER = "UPDATE_USER";
 export const UPDATE_USER_ADDRESS = "UPDATE_USER_ADDRESS";
 
+import setting from "../../Constant/setting";
+
 export const fetchUser = () => {
   return async (dispatch, getState) => {
     dispatch({ type: FETCH_USER_REQUEST });
     const token = getState().auth.token;
 
-    fetch(`${process.env.BACKEND_BASE_URL}/api/users/me`, {
+    fetch(`${setting.apiUrl}/api/users/me`, {
       method: "GET",
       headers: {
         "x-auth-token": token,
@@ -47,7 +49,7 @@ export const updateUserDetails = (obj) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
 
-    fetch(`${process.env.BACKEND_BASE_URL}/api/users/update`, {
+    fetch(`${setting.apiUrl}/api/users/update`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +83,7 @@ export const updateUserAddress = (address) => {
 
       try {
         const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/users/userAddress/${addressId}`,
+          `${setting.apiUrl}/api/users/userAddress/${addressId}`,
           {
             method: "PATCH",
             headers: {
@@ -112,7 +114,7 @@ export const updateUserAddress = (address) => {
     } else {
       try {
         const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/users/userAddress`,
+          `${setting.apiUrl}/api/users/userAddress`,
           {
             method: "POST",
             headers: {
@@ -155,7 +157,7 @@ export const deleteUserAddress = (addressId) => {
     } else {
       try {
         const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/users/userAddress/${addressId}`,
+          `${setting.apiUrl}/api/users/userAddress/${addressId}`,
           {
             method: "DELETE",
             headers: {

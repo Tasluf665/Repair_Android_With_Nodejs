@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { ScaledSheet } from "react-native-size-matters";
+import setting from "../../../Constant/setting";
 
 import Colors from "../../../Constant/Colors";
 import CustomeFonts from "../../../Constant/CustomeFonts";
@@ -17,7 +18,7 @@ export default function PickerField(props) {
   const handleProductChange = async (brandId) => {
     try {
       const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/products/models/${props.productId}/${brandId}`,
+        `${setting.apiUrl}/api/products/models/${props.productId}/${brandId}`,
         {
           headers: {
             "Content-Type": "application/json",

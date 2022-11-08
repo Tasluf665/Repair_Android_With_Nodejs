@@ -11,6 +11,7 @@ import * as Google from "expo-google-app-auth";
 import axios from "axios";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import setting from "../../../Constant/setting";
 
 export async function registerForPushNotificationsAsync() {
   let token;
@@ -57,7 +58,7 @@ export async function GoogleSignIn(androidClientId, scopes = []) {
     if (result.type === "success") {
       try {
         const response = await axios.post(
-          `${process.env.BACKEND_BASE_URL}/api/users/google`,
+          `${setting.apiUrl}/api/users/google`,
           {
             name: result.user.name,
             email: result.user.email,
@@ -81,13 +82,10 @@ export async function GoogleSignIn(androidClientId, scopes = []) {
 
 export async function EmailSignIn(email, password) {
   try {
-    const response = await axios.post(
-      `${process.env.BACKEND_BASE_URL}/api/auth`,
-      {
-        email,
-        password,
-      }
-    );
+    const response = await axios.post(`${setting.apiUrl}/api/auth`, {
+      email,
+      password,
+    });
     return response.data;
   } catch (ex) {
     return { error: ex.response ? ex.response.data.error : ex.message };
@@ -98,15 +96,12 @@ export async function EmailSignUp(name, email, password) {
   try {
     const expoPushToken = await registerForPushNotificationsAsync();
 
-    const response = await axios.post(
-      `${process.env.BACKEND_BASE_URL}/api/users`,
-      {
-        name,
-        email,
-        password,
-        expoPushToken,
-      }
-    );
+    const response = await axios.post(`${setting.apiUrl}/api/users`, {
+      name,
+      email,
+      password,
+      expoPushToken,
+    });
 
     return response.data;
   } catch (ex) {
@@ -117,7 +112,7 @@ export async function EmailSignUp(name, email, password) {
 export async function ForgotPassword(email) {
   try {
     const response = await axios.post(
-      `${process.env.BACKEND_BASE_URL}/api/auth/forgot-password`,
+      `${setting.apiUrl}/api/auth/forgot-password`,
       {
         email,
       }

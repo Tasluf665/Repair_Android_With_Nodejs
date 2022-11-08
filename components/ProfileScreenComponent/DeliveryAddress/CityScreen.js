@@ -4,6 +4,7 @@ import { ScaledSheet } from "react-native-size-matters";
 
 import { useSelector, useDispatch } from "react-redux";
 import { authRefreshToken } from "../../../store/actions/auth";
+import setting from "../../../Constant/setting";
 
 import CommonAddressScreen from "./NonFunctionalComponent/CommonAddressScreen";
 import CustomeActivityIndicator from "../../Common/CustomeActivityIndicator";
@@ -38,7 +39,7 @@ export default function CityScreen(props) {
     const getdata = async () => {
       try {
         const req = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/address?id=${region.id}`,
+          `${setting.apiUrl}/api/address?id=${region.id}`,
           {
             method: "GET",
             headers: {

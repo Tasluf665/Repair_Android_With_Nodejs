@@ -4,6 +4,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import { useSelector, useDispatch } from "react-redux";
 import { authRefreshToken } from "../../store/actions/auth";
 import { useNavigation } from "@react-navigation/native";
+import setting from "../../Constant/setting";
 
 import Colors from "../../Constant/Colors";
 import OrderTrackIndecator from "./NonFunctionalComponent/OrderTrackIndecator";
@@ -26,7 +27,7 @@ export default function OrderTrackMainScreen(props) {
     const getData = async () => {
       try {
         const response = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/users/orders/${props.orderId}`,
+          `${setting.apiUrl}/api/users/orders/${props.orderId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -40,7 +41,7 @@ export default function OrderTrackMainScreen(props) {
         if (!result.error) {
           if (result.data.technicianId) {
             const res = await fetch(
-              `${process.env.BACKEND_BASE_URL}/api/technicians/${result.data.technicianId}`,
+              `${setting.apiUrl}/api/technicians/${result.data.technicianId}`,
               {
                 headers: {
                   "Content-Type": "application/json",

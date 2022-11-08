@@ -3,6 +3,7 @@ export const FETCH_NOTIFICATION_REQUEST = "FETCH_NOTIFICATION_REQUEST";
 export const FETCH_NOTIFICATION_SUCCESS = "FETCH_NOTIFICATION_SUCCESS";
 export const INCREASE_NOTIFICATION_COUNT = "INCREASE_NOTIFICATION_COUNT";
 export const RESET_NOTIFICATION_COUNT = "RESET_NOTIFICATION_COUNT";
+import setting from "../../Constant/setting";
 
 export const fetchNotification = () => {
   return async (dispatch, getState) => {
@@ -11,7 +12,7 @@ export const fetchNotification = () => {
 
     try {
       const response = await fetch(
-        `${process.env.BACKEND_BASE_URL}/api/users/notifications/`,
+        `${setting.apiUrl}/api/users/notifications/`,
         {
           method: "GET",
           headers: {

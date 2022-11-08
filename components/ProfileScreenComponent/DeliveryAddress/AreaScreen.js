@@ -7,6 +7,7 @@ import { authRefreshToken } from "../../../store/actions/auth";
 
 import CommonAddressScreen from "./NonFunctionalComponent/CommonAddressScreen";
 import CustomeActivityIndicator from "../../Common/CustomeActivityIndicator";
+import setting from "../../../Constant/setting";
 
 export default function AreaScreen(props) {
   const region = props.route.params.region;
@@ -39,15 +40,12 @@ export default function AreaScreen(props) {
     setLoading(true);
     const getdata = async () => {
       try {
-        const req = await fetch(
-          `${process.env.BACKEND_BASE_URL}/api/address?id=${city.id}`,
-          {
-            method: "GET",
-            headers: {
-              "x-auth-token": token,
-            },
-          }
-        );
+        const req = await fetch(`${setting.apiUrl}/api/address?id=${city.id}`, {
+          method: "GET",
+          headers: {
+            "x-auth-token": token,
+          },
+        });
         const result = await req.json();
         if (!result.error) {
           setData(result.data);
