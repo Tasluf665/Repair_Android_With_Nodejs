@@ -1,10 +1,10 @@
 import React from "react";
-import { Octicons } from "@expo/vector-icons";
 import HomePageNotificationIcon from "../../../../components/Common/HomePageNotificationIcon";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "../../../../screens/HomeScreen/HomeScreen";
 import OrderFormScreen from "../../../../screens/HomeScreen/OrderFormScreen";
+import CommonWebView from "../../../../components/HomeScreenComponent/NonFunctionalComponent/CommonWebView";
 import { NotificationStack } from "./NotificationStack";
 import Colors from "../../../../Constant/Colors";
 
@@ -68,6 +68,13 @@ export const HomeStack = () => {
         })}
       />
       <Stack.Screen name="OrderFormStackScreen" component={OrderFormScreen} />
+      <Stack.Screen
+        options={{
+          headerStyle: { backgroundColor: Colors.Primary_Helper },
+        }}
+        name="CommonWebView"
+        component={CommonWebView}
+      />
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: Colors.Primary_Helper },

@@ -6,7 +6,10 @@ import OffersCard from "../NonFunctionalComponent/OffersCard";
 import OfferItems from "../../../Constant/OfferItems";
 import HomeText from "../NonFunctionalComponent/HomeText";
 
+import { useNavigation } from "@react-navigation/native";
+
 const Offers = (props) => {
+  const navigation = useNavigation();
   return (
     <View>
       <HomeText>Offers</HomeText>
@@ -15,7 +18,11 @@ const Offers = (props) => {
           <View style={{ alignItems: "center" }}>
             {OfferItems.map((item) => (
               <OffersCard
-                onPress={() => console.log("dvdfds")}
+                onPress={() =>
+                  navigation.navigate("CommonWebView", {
+                    htmlName: "promo.html",
+                  })
+                }
                 imageName={item.imageName}
                 titleText={item.titleText}
                 mainText={item.mainText}

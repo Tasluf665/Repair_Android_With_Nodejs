@@ -1,12 +1,22 @@
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableWithoutFeedback } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import Colors from "../../../Constant/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 const TopDealsCard = (props) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={props.imageName} />
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate("CommonWebView", {
+            htmlName: "offer.html",
+          });
+        }}
+      >
+        <Image style={styles.image} source={props.imageName} />
+      </TouchableWithoutFeedback>
     </View>
   );
 };
