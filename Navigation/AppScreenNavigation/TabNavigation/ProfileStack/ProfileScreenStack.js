@@ -5,6 +5,8 @@ import ProfileMainScreen from "../../../../components/ProfileScreenComponent/Pro
 import { MyDetailsStack } from "./MyDetailsStack";
 import { DeliveryAddressStack } from "./DeliveryAddressStack";
 import HistoryStack from "./HistoryStack";
+import CommonWebView from "../../../../components/HomeScreenComponent/NonFunctionalComponent/CommonWebView";
+import Colors from "../../../../Constant/Colors";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +21,22 @@ export const ProfileStack = () => {
         component={DeliveryAddressStack}
       />
       <Stack.Screen name="HistoryStack" component={HistoryStack} />
+      <Stack.Screen
+        options={{
+          headerStyle: { backgroundColor: Colors.Primary_Helper },
+          headerShown: true,
+        }}
+        name="Privacy"
+        component={CommonWebView}
+      />
+      <Stack.Screen
+        options={{
+          headerStyle: { backgroundColor: Colors.Primary_Helper },
+          headerShown: true,
+        }}
+        name="Help"
+        component={CommonWebView}
+      />
     </Stack.Navigator>
   );
 };

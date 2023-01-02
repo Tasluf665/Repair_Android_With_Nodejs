@@ -3,15 +3,17 @@ import { View, Image, TouchableWithoutFeedback } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import Colors from "../../../Constant/Colors";
 import { useNavigation } from "@react-navigation/native";
+import setting from "../../../Constant/setting";
 
 const TopDealsCard = (props) => {
   const navigation = useNavigation();
+  const url = `${setting.apiUrl}/WebView/offer.html`;
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
         onPress={() => {
-          navigation.navigate("CommonWebView", {
-            htmlName: "offer.html",
+          navigation.navigate("Offer", {
+            url: url,
           });
         }}
       >

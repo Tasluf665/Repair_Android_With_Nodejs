@@ -5,11 +5,13 @@ import { ScaledSheet } from "react-native-size-matters";
 import OffersCard from "../NonFunctionalComponent/OffersCard";
 import OfferItems from "../../../Constant/OfferItems";
 import HomeText from "../NonFunctionalComponent/HomeText";
+import setting from "../../../Constant/setting";
 
 import { useNavigation } from "@react-navigation/native";
 
 const Offers = (props) => {
   const navigation = useNavigation();
+  const url = `${setting.apiUrl}/WebView/promo.html`;
   return (
     <View>
       <HomeText>Offers</HomeText>
@@ -19,8 +21,8 @@ const Offers = (props) => {
             {OfferItems.map((item) => (
               <OffersCard
                 onPress={() =>
-                  navigation.navigate("CommonWebView", {
-                    htmlName: "promo.html",
+                  navigation.navigate("Offer", {
+                    url: url,
                   })
                 }
                 imageName={item.imageName}

@@ -72,7 +72,7 @@ export const HomeStack = () => {
         options={{
           headerStyle: { backgroundColor: Colors.Primary_Helper },
         }}
-        name="CommonWebView"
+        name="Offer"
         component={CommonWebView}
       />
       <Stack.Screen

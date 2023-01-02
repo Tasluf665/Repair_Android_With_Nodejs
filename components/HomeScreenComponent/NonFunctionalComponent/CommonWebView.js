@@ -2,16 +2,12 @@ import { View } from "react-native";
 import React from "react";
 import { WebView } from "react-native-webview";
 import { ScaledSheet } from "react-native-size-matters";
-import setting from "../../../Constant/setting";
 
 export default function CommonWebView({ route }) {
-  const url = route.params.htmlName;
+  const url = route.params.url;
   return (
     <View style={{ flex: 1 }}>
-      <WebView
-        style={styles.container}
-        source={{ uri: `${setting.apiUrl}/WebView/${url}` }}
-      />
+      <WebView style={styles.container} source={{ uri: url }} />
     </View>
   );
 }
