@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { authenticate } from "../../store/actions/auth";
 
 import * as AuthHelper from "./FunctionalComponent/AuthHelper";
+import setting from "../../Constant/setting";
 
 export default function SignInWithEmail(props) {
   const dispatch = useDispatch();
@@ -30,7 +31,8 @@ export default function SignInWithEmail(props) {
   const [email, setEmail] = React.useState();
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: process.env.EXPO_GO_PROXY,
+    expoClientId: setting.EXPO_GO_PROXY,
+    androidClientId: setting.ANDROID_CLIENT_ID,
   });
 
   React.useEffect(() => {

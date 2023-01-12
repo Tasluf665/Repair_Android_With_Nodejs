@@ -4,10 +4,7 @@
     "slug": "repair-nodejs",
     "version": "2.0.2",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "com.tasluf.repairnodejs",
@@ -19,9 +16,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.tasluf.repairnodejs",
@@ -33,10 +28,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions": [
-        "NOTIFICATIONS",
-        "CAMERA"
-      ],
+      "permissions": ["NOTIFICATIONS", "CAMERA"],
       "useNextNotificationsApi": true,
       "package": "com.tasluf.repairnodejs",
       "versionCode": 3

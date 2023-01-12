@@ -62,7 +62,6 @@ export async function GoogleSignIn(authentication) {
       accessToken: authentication.accessToken,
       expoPushToken,
     });
-
     return response.data;
   } catch (error) {
     console.log(
