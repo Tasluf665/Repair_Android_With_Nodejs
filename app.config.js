@@ -1,5 +1,6 @@
 module.exports = {
   name: "Repair",
+  plugins: [["expo-notifications"]],
   slug: "repair-nodejs",
   version: "2.0.3",
   privacy: "public",
@@ -29,6 +30,7 @@ module.exports = {
       backgroundColor: "#FFFFFF",
     },
     permissions: ["NOTIFICATIONS", "CAMERA"],
+    googleServicesFile: "./google-services.json",
     package: "com.tasluf.repairnodejs",
     versionCode: 3,
   },

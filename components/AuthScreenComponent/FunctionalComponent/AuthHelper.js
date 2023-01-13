@@ -11,6 +11,7 @@
 import axios from "axios";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { Alert } from "react-native";
 import setting from "../../../Constant/setting";
 
 export async function registerForPushNotificationsAsync() {
@@ -64,6 +65,7 @@ export async function GoogleSignIn(authentication) {
     });
     return response.data;
   } catch (error) {
+    Alert.alert(error.message);
     console.log(
       "🚀 ~ file: AuthHelper.js ~ line 67 ~ GoogleSignIn ~ error",
       error
@@ -96,6 +98,7 @@ export async function EmailSignUp(name, email, password) {
 
     return response.data;
   } catch (ex) {
+    Alert.alert(ex.message);
     return { error: ex.response ? ex.response.data.error : ex.message };
   }
 }

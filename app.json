@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Repair",
+    "plugins": [["expo-notifications"]],
     "slug": "repair-nodejs",
     "version": "2.0.2",
     "privacy": "public",
@@ -29,7 +30,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "permissions": ["NOTIFICATIONS", "CAMERA"],
-      "useNextNotificationsApi": true,
+      "googleServicesFile": "./google-services.json",
       "package": "com.tasluf.repairnodejs",
       "versionCode": 3
     },
