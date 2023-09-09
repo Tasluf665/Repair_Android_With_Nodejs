@@ -2,6 +2,11 @@
 
 Welcome to the documentation for the Repair app, an Android application built with React Native Expo. Repair is an e-commerce platform where users can hire technicians to repair their electronic devices. This project consists of three key components: the Android app (developed with React Native Expo), the backend server (powered by Node.js), and the admin panel (created with React). MongoDB serves as the primary database.
 
+## Watch our Video Demo
+
+[![Demo Video](https://img.youtube.com/vi/wWMqArSEQqg/0.jpg)](https://www.youtube.com/watch?v=wWMqArSEQqg)
+
+
 ## Features
 
 ### Android App:
@@ -80,6 +85,10 @@ To use the Repair app, follow these steps:
 
 5. **Ready to Go**: You're now ready to use the Repair app and explore its features.
 
+## Watch App Overview
+
+[![Demo Video](https://img.youtube.com/vi/xaVHDgGFC1s/0.jpg)](https://www.youtube.com/watch?v=xaVHDgGFC1s)
+
 ## Screenshots
 <div>
 <img src="https://github.com/Tasluf665/Repair_Android_With_Nodejs/blob/master/Android%20App%20Pic/photo_2022-11-09_12-31-50.jpg" width="200px" height="400px">
@@ -116,5 +125,6 @@ If you have any questions, encounter issues, or need assistance, please feel fre
 Thank you for choosing the Repair app. We hope it enhances your electronic device repair experience!
 
 **Project Team:**
-- Md Tasluf Morshed
+- Md Tasluf Morshed and Md Assadujjaman Tilok
 - tasluf665@gmail.com
+- [Repair Official Website](https://tasluf665.github.io/Repair-Webpage/)
