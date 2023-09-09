@@ -100,6 +100,15 @@ To use the Repair app, follow these steps:
 
 You can also find the Repair app on the Expo app store. Simply scan the barcode, and you'll be able to use the app via the Expo app.
 
+## Research Paper
+
+For detailed information about each section of this project, please refer to our full research paper:
+
+[![Research Paper](https://img.shields.io/badge/Research%20Paper-PDF-blue)](https://github.com/Tasluf665/Repair_Android_With_Nodejs/blob/master/assets/Final%20Defence%20Report.pdf)
+
+The research paper provides comprehensive insights into the project, including design, architecture, implementation details, and more.
+
+
 ## Questions and Support
 
 If you have any questions, encounter issues, or need assistance, please feel free to reach out to us.
